@@ -5,7 +5,7 @@ Starts GatewayRunner in api_only mode with only the APIServerAdapter.
 """
 import argparse
 import logging
-import sys
+import os
 from pathlib import Path
 
 def main():
@@ -16,6 +16,9 @@ def main():
     args = parser.parse_args()
 
     logging.basicConfig(level=args.log_level, format="%(asctime)s %(name)s %(levelname)s %(message)s")
+
+    os.environ.setdefault("API_SERVER_HOST", args.host)
+    os.environ.setdefault("API_SERVER_PORT", str(args.port))
 
     from gateway.run import GatewayRunner
     from gateway.config import load_gateway_config
