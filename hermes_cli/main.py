@@ -3788,7 +3788,7 @@ def _coalesce_session_name_args(argv: list) -> list:
     """
     _SUBCOMMANDS = {
         "chat", "model", "gateway", "setup", "whatsapp", "login", "logout", "auth",
-        "status", "cron", "doctor", "config", "pairing", "skills", "tools",
+        "status", "cron", "doctor", "serve", "config", "pairing", "skills", "tools",
         "mcp", "sessions", "insights", "version", "update", "uninstall",
         "profile",
     }
@@ -4632,7 +4632,48 @@ For more help on a command:
         help="Attempt to fix issues automatically"
     )
     doctor_parser.set_defaults(func=cmd_doctor)
-    
+
+    # =========================================================================
+    # serve command
+    # =========================================================================
+    serve_parser = subparsers.add_parser(
+        "serve",
+        help="Start Hermes API Server",
+        description="Start GatewayRunner in api_only mode with only the APIServerAdapter"
+    )
+    serve_parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="Host to bind (default: 127.0.0.1)"
+    )
+    serve_parser.add_argument(
+        "--port",
+        type=int,
+        default=8642,
+        help="Port to bind (default: 8642)"
+    )
+    serve_parser.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+        help="Log level (default: INFO)"
+    )
+
+    def cmd_serve(args):
+        """Start the API server."""
+        import logging
+        logging.basicConfig(
+            level=args.log_level,
+            format="%(asctime)s %(name)s %(levelname)s %(message)s"
+        )
+        from gateway.run import GatewayRunner
+        from gateway.config import load_gateway_config
+        config = load_gateway_config()
+        runner = GatewayRunner(config, api_only=True)
+        runner.run()
+
+    serve_parser.set_defaults(func=cmd_serve)
+
     # =========================================================================
     # config command
     # =========================================================================
