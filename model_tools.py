@@ -137,13 +137,11 @@ def _discover_tools():
     """
     _modules = [
         "tools.web_tools",
-        "tools.file_tools",
-        "tools.skills_tool",
-        "tools.skill_manager_tool",
+        "tools.file_operations",
+        "tools.mcp_tool",
+        "tools.skills_hub",
+        "tools.skills_guard",
         "tools.browser_tool",
-        "tools.todo_tool",
-        "tools.session_search_tool",
-        "tools.clarify_tool",
         "tools.delegate_tool",
     ]
     import importlib
