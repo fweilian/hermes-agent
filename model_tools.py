@@ -138,9 +138,11 @@ def _discover_tools():
     _modules = [
         "tools.web_tools",
         "tools.file_operations",
+        "tools.file_tools",
         "tools.mcp_tool",
         "tools.skills_hub",
         "tools.skills_guard",
+        "tools.skills_tool",
         "tools.browser_tool",
         "tools.delegate_tool",
     ]
